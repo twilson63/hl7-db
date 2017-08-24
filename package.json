@@ -1,7 +1,7 @@
 {
   "name": "hl7-db",
   "description": "A simple hl7 server that pushes docs into pouchdb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "repository": {},
   "license": "MIT",
