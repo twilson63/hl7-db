@@ -4,6 +4,7 @@ require('dotenv').config()
 
 const hl7 = require('simple-hl7')
 const app = hl7.tcp()
+const cron = require('cron')
 
 const PouchDB = require('pouchdb')
 PouchDB.plugin(require('crypto-pouch'))
@@ -43,3 +44,15 @@ app.use(function(err, req, res, next) {
 })
 
 app.start(process.env.PORT || 7777)
+
+// setup auto compact cron job
+const job = new cron.CronJob('00 00 2 * * *', () => {
+  db
+    .compact()
+    .then(res => {
+      console.log('compact completed ' + new Date().toISOString())
+    })
+    .catch(err => {
+      console.log('error occuried while trying to compact db: ', err.message)
+    })
+})
