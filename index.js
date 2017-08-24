@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+// load env from .env if provided
 require('dotenv').config()
 
 const hl7 = require('simple-hl7')
@@ -10,10 +11,13 @@ const PouchDB = require('pouchdb')
 PouchDB.plugin(require('crypto-pouch'))
 
 const db = PouchDB(process.env.DB || 'hl7')
+// enable encryption
 process.env.SECRET && db.crypto(process.env.SECRET)
+// setup replication
 process.env.REMOTE_DB &&
   db.sync(process.env.REMOTE_DB, { live: true, retry: true })
 
+// handle incoming transaction
 app.use((req, res, next) => {
   // post to pouchdb
   db
@@ -32,6 +36,7 @@ app.use((req, res, next) => {
   res.end()
 })
 
+// handle error
 app.use(function(err, req, res, next) {
   //error handler
   //standard error middleware would be
@@ -43,6 +48,7 @@ app.use(function(err, req, res, next) {
   res.end()
 })
 
+// listen for hl7 messages
 app.start(process.env.PORT || 7777)
 
 // setup auto compact cron job
