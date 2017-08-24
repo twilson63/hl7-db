@@ -10,9 +10,10 @@ a secure server.
 ENV Variables (.env)
 
 ``` sh
+DB=[local datbase name]
 PORT=7777
 SECRET=[secret code]
-REMOTE_DB=https://demo:demo@db.example.com/hl7
+REMOTE_DB=https://demo:demo@server.com/database
 ```
 
 ## Install and run
@@ -28,8 +29,27 @@ hl7-db
 ## Installing on a raspberry pi
 
 * Install NodeJS
+
+```
+wget https://nodejs.org/dist/v8.4.0/node-v8.4.0-linux-armv6l.tar.xz
+tar -xvf node-v8.4.0-linux-armv6l.tar.xz
+cd node-v8.4.0-linux-armv6l.tar.xz
+sudo cp -R * /usr/local
+sudo chown -R pi /usr/local
+```
+
 * Install pm2
-* Install hl7-db  
+
+```
+npm install pm2 -g
+```
+
+* Install hl7-db
+
+```
+npm install hl7-db -g
+```
+
 * Create shell script file
 
 hl7-adt.sh
@@ -57,8 +77,6 @@ sudo env PATH=$PATH:/usr/local/bin /usr/local/lib/node_modules/pm2/bin/pm2 start
 pm2 save
 
 ```
-
-
 
 ## LICENSE
 
