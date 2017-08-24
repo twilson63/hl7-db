@@ -8,7 +8,7 @@ const app = hl7.tcp()
 const PouchDB = require('pouchdb')
 PouchDB.plugin(require('crypto-pouch'))
 
-const db = PouchDB('hl7')
+const db = PouchDB(process.env.DB || 'hl7')
 process.env.SECRET && db.crypto(process.env.SECRET)
 process.env.REMOTE_DB &&
   db.sync(process.env.REMOTE_DB, { live: true, retry: true })
